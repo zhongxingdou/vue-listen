@@ -47,4 +47,8 @@ vm.name = 'hal.zhong'
 // user.name
 // .name
 // hal --> hal.zhong
+
+vm.$listen('user.name', function (val, oldVal, path) {
+  conosle.info(val)
+})
 ```
