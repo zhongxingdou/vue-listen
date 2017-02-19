@@ -22,7 +22,7 @@ let vm = new Vue({
   },
   methods: {
     nameWatcher (val, oldVal) {
-      console.info(odlVal + ' --> ' + val)
+      console.info(oldVal + ' --> ' + val)
     }
   },
   listen: {

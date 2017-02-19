@@ -20,38 +20,38 @@ describe('index', () => {
     assert.isFunction(vm.$listen)
   })
 
-  it('should $listen normal', (done) => {
-    let watcher = sinon.spy()
+  it('should $listen() normal', (done) => {
+    let listener = sinon.spy()
     let vm = new Vue({
       data: {
         name: 'hal'
       }
     })
 
-    vm.$listen('name', watcher)
+    vm.$listen('name', listener)
     vm.name = 'hal.zhong'
 
-    async(done, () => assert.equal(watcher.called, true))
+    async(done, () => assert.equal(listener.called, true))
   })
 
   it('should invoke listener', (done) => {
-    let watcher = sinon.spy()
+    let listener = sinon.spy()
 
     let vm = new Vue({
       data: {
         name: 'hal'
       },
       listen: {
-        name: watcher
+        name: listener
       }
     })
 
     vm.name = 'jerry'
 
-    async(done, () => assert.equal(watcher.called, true))
+    async(done, () => assert.equal(listener.called, true))
   })
 
-  it('should provide path info to watcher', (done) => {
+  it('should provide path info as parameter to listener', (done) => {
     let watcher2 = sinon.spy()
 
     let vm = new Vue({
@@ -76,7 +76,7 @@ describe('index', () => {
     })
   })
 
-  it('should invoke method which listened to data', (done) => {
+  it('should invoke method if listener be a string of method name', (done) => {
     let vm = new Vue({
       data: {
         user: {
@@ -96,5 +96,61 @@ describe('index', () => {
     })
 
     vm.user.name = 'hal.zhong'
+  })
+
+  describe('option.onlyDescendence', () => {
+    it('should not trigger listener when target reference changed', (done) => {
+      let called = false
+      let vm = new Vue({
+        data: {
+          user: {
+            name: 'hal'
+          }
+        },
+        methods: {
+          nameWatcher () {
+            called = true
+          }
+        },
+        listen: {
+          'user.name': {
+            handler: 'nameWatcher',
+            deep: true,
+            onlyDescendence: true
+          }
+        }
+      })
+
+      vm.user = {name: 'ok'}
+
+      vm.$nextTick(() => {
+        assert.equal(called, false)
+        done()
+      })
+    })
+
+    it('should trigger listener when target property changed', (done) => {
+      let vm = new Vue({
+        data: {
+          user: {
+            name: 'hal'
+          }
+        },
+        methods: {
+          nameWatcher () {
+            done()
+          }
+        },
+        listen: {
+          'user.name': {
+            handler: 'nameWatcher',
+            deep: true,
+            onlyDescendence: false
+          }
+        }
+      })
+
+      vm.user.name = 'hal.zhong'
+    })
   })
 })
