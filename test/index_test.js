@@ -101,16 +101,18 @@ describe('index', () => {
   it('should watch array item normal', (done) => {
     let vm = new Vue({
       data: {
-        users: [
-          {name: 'hal'},
-          {name: 'jerry'}
-        ]
+        model: {
+          users: [
+            {name: 'hal'},
+            {name: 'jerry'}
+          ]
+        }
       },
 
       listen: {
-        users: {
+        'model.users': {
           handler (val, oldVal, path) {
-            assert.equal(path.absolute, 'users[0].name')
+            assert.equal(path.absolute, 'model.users[0].name')
             done()
           },
           deep: true,
@@ -119,7 +121,7 @@ describe('index', () => {
       }
     })
 
-    vm.users[0].name = 'hal.zhong'
+    vm.model.users[0].name = 'hal.zhong'
   })
 
   describe('option.onlyDescendence', () => {
