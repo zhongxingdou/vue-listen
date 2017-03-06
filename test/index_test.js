@@ -98,6 +98,30 @@ describe('index', () => {
     vm.user.name = 'hal.zhong'
   })
 
+  it('should watch array item normal', (done) => {
+    let vm = new Vue({
+      data: {
+        users: [
+          {name: 'hal'},
+          {name: 'jerry'}
+        ]
+      },
+
+      listen: {
+        users: {
+          handler (val, oldVal, path) {
+            assert.equal(path.absolute, 'users[0].name')
+            done()
+          },
+          deep: true,
+          onlyDescendence: true
+        }
+      }
+    })
+
+    vm.users[0].name = 'hal.zhong'
+  })
+
   describe('option.onlyDescendence', () => {
     it('should not trigger listener when target reference changed', (done) => {
       let called = false
