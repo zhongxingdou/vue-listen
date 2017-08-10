@@ -31,7 +31,9 @@
     "dist"
   ],
   "homepage": "https://github.com/zhongxingdou/vue-listen#readme",
-  "dependencies": {},
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0"
+  },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "babel-plugin-external-helpers": "^6.18.0",
