@@ -1,4 +1,6 @@
 # vue-listen
+[![Build Status](http://travis-ci.org/zhongxingdou/vue-listen.png)](http://travis-ci.org/zhongxingdou/vue-listen)
+[![NPM version](https://badge.fury.io/js/vue-listen.png)](http://badge.fury.io/js/vue-listen)
 
 ## Install
 
